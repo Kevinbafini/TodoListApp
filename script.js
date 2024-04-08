@@ -1,45 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('#new-task-form');
-    const taskList = document.querySelector('#tasks-list');
     const inputText = document.querySelector('#new-task-input');
+    const taskList = document.querySelector('#tasks-list');
     const filterButtons = document.querySelectorAll('.filter-btn');
     let tasks = [];
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-        const inputValue = inputText.value;
-        tasks.push({ text: inputValue, status: 'pending' });
-        inputText.value = '';
-        updateTaskList(tasks);
+        const taskText = inputText.value.trim();
+        if (taskText) {
+            tasks.push({ text: taskText, status: 'pending' });
+            inputText.value = '';
+            updateTaskList();
+        }
     });
 
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            let filteredTasks;
-            if (filter === 'all') {
-                filteredTasks = tasks;
-            } else {
-                filteredTasks = tasks.filter(task => task.status === filter);
-            }
-            updateTaskList(filteredTasks);
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            updateTaskList(this.getAttribute('data-filter'));
         });
     });
 
-    function updateTaskList(tasksToShow) {
-        taskList.innerHTML = tasksToShow.map(task => {
-            const taskStatusClass = task.status === 'completed' ? 'task-completed' : '';
-            return `<li class="${taskStatusClass}">${task.text}</li>`;
-        }).join('');
+    function updateTaskList(filter = 'all') {
+        taskList.innerHTML = tasks.filter(task => filter === 'all' || task.status === filter).map((task, index) => (
+            `<li>
+                <span class="${task.status === 'completed' ? 'task-completed' : ''}" onclick="toggleTaskStatus(${index})">${task.text}</span>
+                <button class="delete-button" onclick="removeTask(${index})">🗑️</button>
+            </li>`
+        )).join('');
     }
 
-    taskList.addEventListener('click', function(event) {
-        if (event.target.tagName === 'LI') {
-            const selectedTaskText = event.target.textContent;
-            const selectedTask = tasks.find(task => task.text === selectedTaskText);
+    window.toggleTaskStatus = function(index) {
+        tasks[index].status = tasks[index].status === 'pending' ? 'completed' : 'pending';
+        updateTaskList(document.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'all');
+    };
 
-            selectedTask.status = selectedTask.status === 'pending' ? 'completed' : 'pending';
-            updateTaskList(tasks);
-        }
-    });
+    window.removeTask = function(index) {
+        tasks.splice(index, 1);
+        updateTaskList(document.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'all');
+    };
 });
