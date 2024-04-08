@@ -32,7 +32,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 <h3 align="center"> Demonstração aplicada no Smartphone</h3>
 
 <div align="center">
-<img src="images/bg2.png" alt="Texto Alternativo">
+<img src="image/bg2.png" alt="Texto Alternativo">
 </div>
 
 ## Suporte a Navegadores
