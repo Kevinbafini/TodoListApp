@@ -109,3 +109,50 @@ h1 {
     background-color: #FF9000;
     color: #f5f5fd;
 }
+
+@media (max-width: 796px) {
+    #app {
+        margin: 20px 10px; 
+        padding: 10px; 
+    }
+
+    h1 {
+        font-size: 24px; 
+    }
+
+    #new-task-form input, #new-task-form button, .filter-btn {
+        padding: 8px 16px; 
+        margin: 3px 3px 5px; 
+    }
+
+    #new-task-form input {
+        width: auto;
+    }
+
+    #tasks-list li {
+        font-size: 14px; 
+        padding: 8px; 
+    }
+
+    .edit-button, .delete-button {
+        padding: 3px 8px; 
+    }
+}
+
+@media (max-width: 320px) {
+    #app {
+        margin: 10px; 
+    }
+
+    h1 {
+        font-size: 20px; 
+    }
+
+    #new-task-form input, #new-task-form button, .filter-btn {
+        padding: 6px 12px;
+    }
+
+    #tasks-list li {
+        font-size: 12px; 
+    }
+}
